@@ -1,3 +1,4 @@
+import { ILoginResponse } from "../../../types/globalTypes";
 import { api } from "../../api/apiSlice";
 
 const userApi = api.injectEndpoints({
@@ -14,24 +15,9 @@ const userApi = api.injectEndpoints({
         url: `auth/login`,
         method: "POST",
         body: data,
-        responseHandler: async (response) => {
-          if (response.ok) {
-            // If the response is successful, parse the JSON data and extract the access token
-            return await response.json().then((data) => data.accessToken);
-          } else {
-            // If there is an error, throw an error with the response status and statusText
-            throw new Error(
-              `Error: ${response.status} - ${response.statusText}`
-            );
-          }
-        },
-        prepare: (accessToken: string) => ({
-          payload: {
-            accessToken,
-            isAuthenticated: !!accessToken, // Set `isAuthenticated` to `true` if accessToken is truthy.
-          },
-        }),
       }),
+      transformResponse: (response: { data: ILoginResponse }, meta, arg) =>
+        response.data,
     }),
   }),
 });

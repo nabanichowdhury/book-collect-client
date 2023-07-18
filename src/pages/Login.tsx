@@ -4,11 +4,13 @@ import Loading from "../layouts/Loading";
 import { useLoginUsersMutation } from "../redux/features/users/userApi";
 
 const Login = () => {
-  const [signUp, { isLoading }] = useLoginUsersMutation();
+  const [login, { isLoading }] = useLoginUsersMutation();
+  //ei mutation ta dekhen
+  //login e access token ta kmne pabo amiii? like eita response e assar kothanah?kothai asche undefined hosse front end e
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setEmail("");
     setPassword("");
     const user = {
@@ -17,7 +19,10 @@ const Login = () => {
         password: password,
       },
     };
-    signUp(user);
+    const data = await login(user);
+    const accessToken = data?.data?.accessToken;
+    localStorage.setItem("accessToken", accessToken);
+
     navigate("/");
   };
 

@@ -9,3 +9,12 @@ export type IBook= {
     reviews: string[];
 
   }
+
+export type ILoginResponse={
+  statusCode:number,
+  success:boolean,
+  message:string,
+  data:{
+    accessToken:string,
+  }
+}

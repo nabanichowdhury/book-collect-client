@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 interface IUser{
     accessToken:string,
@@ -9,6 +9,7 @@ const initialState:IUser={
    isAuthenticated:false,
 
 }
+
 const userSlice=createSlice({
     name:'user',
     initialState,
@@ -20,7 +21,8 @@ const userSlice=createSlice({
         //     state.priceRange=action.payload
         // }
         
-    }
+    },
+    
 })
 
 // export const {toggleStatus,setPriceRange}=bookSlice.actions

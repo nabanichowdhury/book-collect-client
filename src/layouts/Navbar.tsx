@@ -1,6 +1,20 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import Loading from "./Loading";
 
 const Navbar = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const handleReload = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000); // 1 second delay, adjust as needed
+  };
+  const handleLogOut = () => {
+    localStorage.removeItem("accessToken");
+    handleReload();
+    if (isLoading) return <Loading></Loading>;
+  };
   return (
     <div className="navbar bg-primary">
       <div className="navbar-start">
@@ -17,12 +31,24 @@ const Navbar = () => {
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
-          <li>
-            <Link to="/signup">Sign Up</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
+          {localStorage.getItem("accessToken") ? (
+            <ul className=" menu-horizontal px-1">
+              <li>
+                <button onClick={() => handleLogOut()}>LogOut</button>
+              </li>
+            </ul>
+          ) : (
+            <ul className=" menu-horizontal px-1">
+              <li>
+                <Link to="/signup">Sign Up</Link>
+              </li>
+
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+            </ul>
+          )}
+
           <li>
             <Link to="/books">All Books</Link>
           </li>

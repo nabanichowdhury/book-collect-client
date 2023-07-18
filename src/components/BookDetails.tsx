@@ -3,11 +3,7 @@ import { useGetSingleBooksQuery } from "../redux/features/books/bookApi";
 
 export const BookDetails = () => {
   const { id } = useParams();
-  const {
-    data: book,
-    isLoading,
-    error,
-  } = useGetSingleBooksQuery(id, {
+  const { data, isLoading, error } = useGetSingleBooksQuery(id, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000,
   });
@@ -34,18 +30,18 @@ export const BookDetails = () => {
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <img
-            src={book?.data?.image}
+            src={data?.data?.image}
             className="max-w-sm rounded-lg shadow-2xl"
           />
           <div className="gap-3">
-            <h3 className="text-5xl font-bold">{book?.data?.title}</h3>
+            <h3 className="text-5xl font-bold">{data?.data?.title}</h3>
             <div className=" flex flex-col gap-3">
               <div className="badge badge-secondary badge-outline">
-                {book?.data?.genre}
+                {data?.data?.genre}
               </div>
-              <div className="badge badge-accent">{book?.data?.author}</div>
+              <div className="badge badge-accent">{data?.data?.author}</div>
               <div className="badge badge-primary">
-                {book?.data?.publicationYear}
+                {data?.data?.publicationYear}
               </div>
             </div>
           </div>
