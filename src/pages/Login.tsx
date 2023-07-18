@@ -1,6 +1,33 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Loading from "../layouts/Loading";
+import { useLoginUsersMutation } from "../redux/features/users/userApi";
 
 const Login = () => {
+  const [signUp, { isLoading }] = useLoginUsersMutation();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+  const handleSubmit = () => {
+    setEmail("");
+    setPassword("");
+    const user = {
+      data: {
+        email: email,
+        password: password,
+      },
+    };
+    signUp(user);
+    navigate("/");
+  };
+
+  const handleEmailChange = (event: any) => {
+    setEmail(event.target.value);
+  };
+  const handlePasswordChange = (event: any) => {
+    setPassword(event.target.value);
+  };
+  if (isLoading) return <Loading></Loading>;
   return (
     <div>
       <div className="navbar bg-base-100">
@@ -37,6 +64,8 @@ const Login = () => {
                   <input
                     type="text"
                     placeholder="email"
+                    onChange={handleEmailChange}
+                    value={email}
                     className="input input-bordered"
                   />
                 </div>
@@ -47,6 +76,8 @@ const Login = () => {
                   <input
                     type="text"
                     placeholder="password"
+                    onChange={handlePasswordChange}
+                    value={password}
                     className="input input-bordered"
                   />
                   <label className="label">
@@ -56,7 +87,12 @@ const Login = () => {
                   </label>
                 </div>
                 <div className="form-control mt-6">
-                  <button className="btn btn-primary">Login</button>
+                  <button
+                    onClick={() => handleSubmit()}
+                    className="btn btn-primary"
+                  >
+                    Login
+                  </button>
                 </div>
               </div>
             </div>

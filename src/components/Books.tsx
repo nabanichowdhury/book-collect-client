@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { useGetBooksQuery } from "../redux/features/bookApi";
+
+import { useGetBooksQuery } from "../redux/features/books/bookApi";
 import { IBook } from "../types/globalTypes";
 import BookCard from "./BookCard";
 

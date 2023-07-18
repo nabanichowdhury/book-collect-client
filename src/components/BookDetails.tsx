@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useGetSingleBooksQuery } from "../redux/features/bookApi";
+import { useGetSingleBooksQuery } from "../redux/features/books/bookApi";
 
 export const BookDetails = () => {
   const { id } = useParams();

@@ -1,6 +1,33 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Loading from "../layouts/Loading";
+import { useSignUpUsersMutation } from "../redux/features/users/userApi";
 
 export const SignUp = () => {
+  const [signUp, { isLoading }] = useSignUpUsersMutation();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+  const handleSubmit = () => {
+    setEmail("");
+    setPassword("");
+    const user = {
+      data: {
+        email: email,
+        password: password,
+      },
+    };
+    signUp(user);
+    navigate("/login");
+  };
+
+  const handleEmailChange = (event: any) => {
+    setEmail(event.target.value);
+  };
+  const handlePasswordChange = (event: any) => {
+    setPassword(event.target.value);
+  };
+  if (isLoading) return <Loading></Loading>;
   return (
     <div>
       <div className="navbar bg-base-100">
@@ -35,6 +62,8 @@ export const SignUp = () => {
                 <input
                   type="text"
                   placeholder="email"
+                  onChange={handleEmailChange}
+                  value={email}
                   className="input input-bordered"
                 />
               </div>
@@ -44,6 +73,8 @@ export const SignUp = () => {
                 </label>
                 <input
                   type="text"
+                  onChange={handlePasswordChange}
+                  value={password}
                   placeholder="password"
                   className="input input-bordered"
                 />
@@ -54,7 +85,12 @@ export const SignUp = () => {
                 </label>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-primary">SignUp</button>
+                <button
+                  onClick={() => handleSubmit()}
+                  className="btn btn-primary"
+                >
+                  SignUp
+                </button>
               </div>
             </div>
           </div>
