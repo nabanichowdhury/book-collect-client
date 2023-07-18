@@ -16,8 +16,7 @@ const userApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      transformResponse: (response: { data: ILoginResponse }, meta, arg) =>
-        response.data,
+      transformResponse: (response: ILoginResponse, meta, arg) => response.data,
     }),
   }),
 });

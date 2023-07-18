@@ -6,14 +6,24 @@ import BookCard from "./BookCard";
 
 export const Books = () => {
   const { data, isLoading, error } = useGetBooksQuery(undefined);
+  const isUserLoggedIn = localStorage.getItem("id");
   console.log(data);
   return (
     <div className="">
       <div className="navbar bg-base-100">
         <div className="flex-1">
           <Link to="/" className="btn btn-ghost normal-case text-xl">
-            Home
+            Book Collect
           </Link>
+          {isUserLoggedIn ? (
+            <Link to="/" className="btn btn-ghost normal-case text-xl">
+              Add New Book
+            </Link>
+          ) : (
+            <Link to="/" className="btn btn-ghost normal-case text-xl">
+              Add New Book
+            </Link>
+          )}
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
@@ -26,7 +36,7 @@ export const Books = () => {
           </ul>
         </div>
       </div>
-      <div>
+      {/* <div>
         <input
           type="range"
           min={0}
@@ -34,7 +44,7 @@ export const Books = () => {
           value="50"
           className="range range-xs"
         />
-      </div>
+      </div> */}
       <div className="grid grid-cols-3 gap-4">
         {data?.data?.map((book: IBook) => (
           <BookCard book={book} />

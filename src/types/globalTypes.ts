@@ -16,5 +16,6 @@ export type ILoginResponse={
   message:string,
   data:{
     accessToken:string,
+    id:string,
   }
 }

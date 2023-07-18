@@ -5,8 +5,7 @@ import { useLoginUsersMutation } from "../redux/features/users/userApi";
 
 const Login = () => {
   const [login, { isLoading }] = useLoginUsersMutation();
-  //ei mutation ta dekhen
-  //login e access token ta kmne pabo amiii? like eita response e assar kothanah?kothai asche undefined hosse front end e
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
@@ -20,8 +19,11 @@ const Login = () => {
       },
     };
     const data = await login(user);
+    console.log(data?.data?.accessToken);
     const accessToken = data?.data?.accessToken;
+    const id = data?.data?.id;
     localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("id", id);
 
     navigate("/");
   };

@@ -8,10 +8,11 @@ const Navbar = () => {
     setIsLoading(true);
     setTimeout(() => {
       window.location.reload();
-    }, 1000); // 1 second delay, adjust as needed
+    }, 1000);
   };
   const handleLogOut = () => {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("id");
     handleReload();
     if (isLoading) return <Loading></Loading>;
   };

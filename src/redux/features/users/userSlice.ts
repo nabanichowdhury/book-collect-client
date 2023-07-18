@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface IUser{
-    accessToken:string,
+    _id:string;
     isAuthenticated:boolean,
 }
 const initialState:IUser={
-   accessToken:'',
+   _id:'',
    isAuthenticated:false,
 
 }
@@ -20,6 +20,9 @@ const userSlice=createSlice({
         // setPriceRange:(state,action:PayloadAction<number>)=>{
         //     state.priceRange=action.payload
         // }
+        setUserId:(state,action:PayloadAction<string>)=>{
+            state._id=action.payload
+        }
         
     },
     
