@@ -1,13 +1,18 @@
 import { Link } from "react-router-dom";
 
+import Loading from "../layouts/Loading";
+import AddBook from "../pages/AddBook";
 import { useGetBooksQuery } from "../redux/features/books/bookApi";
 import { IBook } from "../types/globalTypes";
 import BookCard from "./BookCard";
 
 export const Books = () => {
   const { data, isLoading, error } = useGetBooksQuery(undefined);
+  if (isLoading) return <Loading></Loading>;
   const isUserLoggedIn = localStorage.getItem("id");
-  console.log(data);
+
+  const handleAddSubmit = () => {};
+
   return (
     <div className="">
       <div className="navbar bg-base-100">
@@ -15,14 +20,25 @@ export const Books = () => {
           <Link to="/" className="btn btn-ghost normal-case text-xl">
             Book Collect
           </Link>
+        </div>
+
+        <div className="navbar-center">
           {isUserLoggedIn ? (
-            <Link to="/" className="btn btn-ghost normal-case text-xl">
-              Add New Book
-            </Link>
+            <>
+              {/* Open the modal using ID.showModal() method */}
+              <button
+                className="btn btn-outline btn-secondary"
+                onClick={() => window.my_modal_5.showModal()}
+              >
+                Add New Book
+              </button>
+
+              <AddBook></AddBook>
+            </>
           ) : (
-            <Link to="/" className="btn btn-ghost normal-case text-xl">
-              Add New Book
-            </Link>
+            <button className="btn btn-outline btn-secondary">
+              <Link to="/">Add New Book</Link>
+            </button>
           )}
         </div>
         <div className="flex-none">

@@ -1,6 +1,6 @@
 import { api } from "../../api/apiSlice";
 // const { accessToken, isAuthenticated } = useAppSelector((state) => state.user);
-
+// console.log(localStorage.getItem("accessToken"));
 const bookApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getBooks: builder.query({
@@ -9,14 +9,37 @@ const bookApi = api.injectEndpoints({
     getSingleBooks: builder.query({
       query: (id) => `/books/${id}`,
     }),
+    editBook: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/books/${id}`,
+        method: "PATCH",
+
+        headers: {
+          authorization: `${localStorage.getItem("accessToken")}`,
+        },
+        body: data,
+      }),
+      invalidatesTags: ["books"],
+    }),
     createBook: builder.mutation({
       query: ({ data }) => ({
         url: `/books/create-book`,
         method: "POST",
+
         headers: {
-          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          authorization: `${localStorage.getItem("accessToken")}`,
         },
         body: data,
+      }),
+      invalidatesTags: ["books"],
+    }),
+    deleteBook: builder.mutation({
+      query: (id) => ({
+        url: `/books/${id}`,
+        method: "DELETE",
+        headers: {
+          authorization: `${localStorage.getItem("accessToken")}`,
+        },
       }),
     }),
     // postComment: builder.mutation({
@@ -33,4 +56,10 @@ const bookApi = api.injectEndpoints({
     // }),
   }),
 });
-export const { useGetBooksQuery, useGetSingleBooksQuery } = bookApi;
+export const {
+  useGetBooksQuery,
+  useGetSingleBooksQuery,
+  useCreateBookMutation,
+  useDeleteBookMutation,
+  useEditBookMutation,
+} = bookApi;
