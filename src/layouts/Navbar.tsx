@@ -10,6 +10,7 @@ const Navbar = () => {
       window.location.reload();
     }, 1000);
   };
+
   const handleLogOut = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("id");
@@ -59,10 +60,10 @@ const Navbar = () => {
               <summary>Books</summary>
               <ul className="p-2 bg-base-100">
                 <li>
-                  <a>My books</a>
+                  <Link to="/read-list">ReadList</Link>
                 </li>
                 <li>
-                  <a>WishList</a>
+                  <Link to="/wish-list">WishList</Link>
                 </li>
               </ul>
             </details>

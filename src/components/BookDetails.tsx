@@ -1,20 +1,45 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import EditBook from "../pages/EditBook";
 import {
   useDeleteBookMutation,
   useGetSingleBooksQuery,
 } from "../redux/features/books/bookApi";
+import {
+  useAddReadListMutation,
+  useAddWishListMutation,
+} from "../redux/features/users/userApi";
 
 export const BookDetails = () => {
   const { id } = useParams();
-  const { data, isLoading, error } = useGetSingleBooksQuery(id);
+  const { data, isLoading, error } = useGetSingleBooksQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
   const isOwner = localStorage.getItem("id") == data?.data?.owner;
 
   const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation();
+  const [addWishList, { isLoading: addLoading }] = useAddWishListMutation();
+  const [addReadList, { isLoading: readLoading }] = useAddReadListMutation();
   const navigate = useNavigate();
   const handleDelete = (id: string) => {
     deleteBook(id);
     navigate("/books");
+  };
+  const handleAddWishList = () => {
+    const book = {
+      data: {
+        bookId: id,
+      },
+    };
+    addWishList(book);
+    navigate("/wish-list");
+  };
+  const handleAddReadList = () => {
+    const book = {
+      data: {
+        bookId: id,
+      },
+    };
+    addReadList(book);
+    navigate("/read-list");
   };
   if (isDeleting)
     return (
@@ -42,6 +67,7 @@ export const BookDetails = () => {
           </ul>
         </div>
       </div>
+
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <img
@@ -56,20 +82,95 @@ export const BookDetails = () => {
               <div className="badge badge-primary">
                 {data?.data?.publicationYear}
               </div>
+              <div className="flex flex-row gap-3">
+                <div>
+                  {/* The button to open modal */}
+                  <label htmlFor="my_modal_6" className="btn btn-primary">
+                    WishList
+                  </label>
+
+                  {/* Put this part before </body> tag */}
+                  <input
+                    type="checkbox"
+                    id="my_modal_6"
+                    className="modal-toggle"
+                  />
+                  <div className="modal">
+                    <div className="modal-box">
+                      <h3 className="font-bold text-lg">Hello!</h3>
+                      <p className="py-4">
+                        Do you want to add this book to your wishlist?
+                      </p>
+                      <div className="modal-action">
+                        <label
+                          htmlFor="my_modal_6"
+                          className="btn"
+                          onClick={() => handleAddWishList()}
+                        >
+                          YES
+                        </label>
+                        <label htmlFor="my_modal_6" className="btn">
+                          NO
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  {/* The button to open modal */}
+                  <label htmlFor="my_modal_7" className="btn btn-secondary">
+                    ReadList
+                  </label>
+
+                  {/* Put this part before </body> tag */}
+                  <input
+                    type="checkbox"
+                    id="my_modal_7"
+                    className="modal-toggle"
+                  />
+                  <div className="modal">
+                    <div className="modal-box">
+                      <h3 className="font-bold text-lg">Hello!</h3>
+                      <p className="py-4">
+                        Do u want to read this book or already read?
+                      </p>
+                      <div className="modal-action">
+                        <label
+                          htmlFor="my_modal_7"
+                          className="btn"
+                          onClick={() => handleAddReadList()}
+                        >
+                          Save
+                        </label>
+                        <label htmlFor="my_modal_7" className="btn">
+                          Cancel
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               {isOwner ? (
                 <div className="badge badge-primary">Owner</div>
               ) : (
                 <></>
               )}
               <div className="flex flex-row gap-3">
-                <button
-                  disabled={!isOwner}
-                  className="btn btn-active btn-accent"
-                  onClick={() => window.my_modal_8.showModal()}
-                >
-                  Edit Book
-                </button>
-                <EditBook></EditBook>
+                {isOwner ? (
+                  <Link to={`/edit-book/${data?.data?._id}`}>
+                    <button className="btn btn-active btn-accent">
+                      Edit Book
+                    </button>
+                  </Link>
+                ) : (
+                  <button
+                    disabled={!isOwner}
+                    className="btn btn-active btn-accent"
+                  >
+                    Edit Book
+                  </button>
+                )}
+
                 <button
                   disabled={!isOwner}
                   className="btn btn-active btn-ghost"

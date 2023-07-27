@@ -1,126 +1,119 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../layouts/Loading";
 import {
   useEditBookMutation,
   useGetSingleBooksQuery,
 } from "../redux/features/books/bookApi";
+
 interface IBook {
-  image: string;
   title: string;
   author: string;
   publicationYear: string;
   genre: string;
 }
 const EditBook = () => {
+  // HOOKS
   const { id } = useParams();
-  const { data } = useGetSingleBooksQuery(id);
+  const navigate = useNavigate();
+
+  // API
+  const { data, isLoading: getLoad } = useGetSingleBooksQuery(id);
   const [updateBook, { isLoading: isUpdating }] = useEditBookMutation();
-  console.log(data?.data?.image);
-  const [link, setLink] = useState(`${data?.data?.image}`);
-  const [title, setTitle] = useState(`${data?.data?.image}`);
-  const [author, setAuthor] = useState(`${data?.data?.image}`);
-  const [publicationYear, setPublicationYear] = useState(
-    `${data?.data?.image}`
-  );
-  const [genre, setGenre] = useState(`${book?.genre}`);
 
-  const handleLinkChange = (event: any) => {
-    setLink(event.target.value);
+  // Initialize the form state using the custom hook
+  const initialState: IBook = {
+    title: "",
+    author: "",
+    publicationYear: "",
+    genre: "",
   };
-  const handleTitleChange = (event: any) => {
-    setTitle(event.target.value);
-  };
-  const handleAuthorChange = (event: any) => {
-    setAuthor(event.target.value);
-  };
-  const handlePublicationYearChange = (event: any) => {
-    setPublicationYear(event.target.value);
-  };
-  const handleGenreChange = (event: any) => {
-    setGenre(event.target.value);
-  };
-  const [isLoading, setIsLoading] = useState(false);
-  const handleReload = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
+  const [state, setState] = useState(initialState);
+
+  const handleOnChange: any = (e) => {
+    console.log(e.target.name);
+    setState((prev: any) => ({
+      ...prev,
+      [e.target?.name]: e.target?.value,
+    }));
   };
 
+  // If data is available, update the form state
+  useEffect(() => {
+    if (data?.data) {
+      const { title, author, publicationYear, genre } = data.data;
+      setState({
+        title: title || "",
+        author: author || "",
+        publicationYear: publicationYear || "",
+        genre: genre || "",
+      });
+    }
+  }, [data]);
+
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    updateBook({ id: id, data: state });
+    navigate(`/book-details/${id}`);
+  };
+
+  if (getLoad || !data) return <Loading></Loading>;
   if (isUpdating) return <Loading></Loading>;
-  const handleAddSubmit = (id: string) => {
-    setLink("");
-    setTitle("");
-    setAuthor("");
-    setPublicationYear("");
-    setGenre("");
-    const book = {
-      image: link,
-      title: title,
-      author: author,
-      publicationYear: publicationYear,
-      genre: genre,
-    };
-
-    updateBook({ id: id, data: book });
-    handleReload();
-  };
 
   return (
     <div>
-      <dialog id="my_modal_8" className="modal modal-bottom sm:modal-middle">
-        <form method="dialog" className="modal-box">
-          <div className="flex flex-col gap-3 ">
-            <h3 className="text-2xl">Fill the information about the book</h3>
-            <input
-              type="text"
-              placeholder="Link of the image"
-              onChange={handleLinkChange}
-              value={link}
-              className="input input-bordered input-secondary w-full max-w-xs"
-            />
-            <input
-              type="text"
-              placeholder="Title"
-              onChange={handleTitleChange}
-              value={title}
-              className="input input-bordered input-secondary w-full max-w-xs"
-            />
-            <input
-              type="text"
-              placeholder="Author"
-              onChange={handleAuthorChange}
-              value={author}
-              className="input input-bordered input-secondary w-full max-w-xs"
-            />
-            <input
-              type="text"
-              placeholder="Publish Year"
-              onChange={handlePublicationYearChange}
-              value={publicationYear}
-              className="input input-bordered input-secondary w-full max-w-xs"
-            />
-            <input
-              type="text"
-              placeholder="Genre"
-              onChange={handleGenreChange}
-              value={genre}
-              className="input input-bordered input-secondary w-full max-w-xs"
-            />
-          </div>
+      <form onSubmit={handleEditSubmit}>
+        <div className="flex flex-col gap-3 ">
+          <h3 className="text-2xl">Fill the information about the book</h3>
+          {/* <input
+            type="text"
+            name="image"
+            placeholder="Link of the image"
+            onChange={handleOnChange}
+            value={state?.image}
+            className="input input-bordered input-secondary w-full max-w-xs"
+          /> */}
+          <input
+            type="text"
+            name="title"
+            placeholder="Title"
+            onChange={(e) => handleOnChange(e)}
+            value={state?.title}
+            className="input input-bordered input-secondary w-full max-w-xs"
+          />
+          <input
+            type="text"
+            name="author"
+            placeholder="Author"
+            onChange={handleOnChange}
+            value={state?.author}
+            className="input input-bordered input-secondary w-full max-w-xs"
+          />
+          <input
+            type="text"
+            name="publicationYear"
+            placeholder="Publish Year"
+            onChange={handleOnChange}
+            value={state?.publicationYear}
+            className="input input-bordered input-secondary w-full max-w-xs"
+          />
+          <input
+            type="text"
+            name="genre"
+            placeholder="Genre"
+            onChange={handleOnChange}
+            value={state?.genre}
+            className="input input-bordered input-secondary w-full max-w-xs"
+          />
+        </div>
 
-          <div className="modal-action justify-center">
-            {/* if there is a button in form, it will close the modal */}
-            <button
-              className="btn btn-secondary"
-              onClick={() => handleAddSubmit(id)}
-            >
-              Add
-            </button>
-          </div>
-        </form>
-      </dialog>
+        <div className="modal-action justify-center">
+          {/* if there is a button in form, it will close the modal */}
+          <button disabled={isUpdating} className="btn btn-secondary">
+            Add
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

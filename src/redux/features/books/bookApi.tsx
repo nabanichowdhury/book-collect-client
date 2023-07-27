@@ -19,7 +19,7 @@ const bookApi = api.injectEndpoints({
         },
         body: data,
       }),
-      invalidatesTags: ["books"],
+      invalidatesTags: ["books"], //eita kore refresh on mount
     }),
     createBook: builder.mutation({
       query: ({ data }) => ({
@@ -33,6 +33,7 @@ const bookApi = api.injectEndpoints({
       }),
       invalidatesTags: ["books"],
     }),
+
     deleteBook: builder.mutation({
       query: (id) => ({
         url: `/books/${id}`,

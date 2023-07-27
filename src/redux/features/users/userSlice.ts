@@ -22,6 +22,7 @@ const userSlice=createSlice({
         // }
         setUserId:(state,action:PayloadAction<string>)=>{
             state._id=action.payload
+            state.isAuthenticated=true
         }
         
     },

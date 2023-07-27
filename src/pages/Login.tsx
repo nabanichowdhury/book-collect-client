@@ -21,8 +21,10 @@ const Login = () => {
     const data = await login(user);
     console.log(data?.data?.accessToken);
     const accessToken = data?.data?.accessToken;
+
     const id = data?.data?.id;
     localStorage.setItem("accessToken", accessToken);
+
     localStorage.setItem("id", id);
 
     navigate("/");

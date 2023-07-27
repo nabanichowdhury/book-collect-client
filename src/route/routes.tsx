@@ -3,9 +3,13 @@ import App from "../App";
 import { BookDetails } from "../components/BookDetails";
 import { Books } from "../components/Books";
 import AddBook from "../pages/AddBook";
+import EditBook from "../pages/EditBook";
 import Login from "../pages/Login";
 import NotFound from "../pages/NotFound";
+import ReadListBook from "../pages/ReadListBook";
 import { SignUp } from "../pages/SignUp";
+import WishListBook from "../pages/WishListBook";
+import { PrivateRoute } from "./PrivateRoutes";
 
 export const routes = createBrowserRouter([
   {
@@ -30,7 +34,32 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/add-book",
-    element: <AddBook />,
+    element: (
+      <PrivateRoute>
+        <AddBook />,
+      </PrivateRoute>
+    ),
+  },
+
+  {
+    path: "/edit-book/:id",
+    element: <EditBook />,
+  },
+  {
+    path: "wish-list",
+    element: (
+      <PrivateRoute>
+        <WishListBook />,
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "read-list",
+    element: (
+      <PrivateRoute>
+        <ReadListBook />,
+      </PrivateRoute>
+    ),
   },
 
   {
