@@ -9,9 +9,6 @@ const BookCard = ({ book }: IProp) => {
     <div>
       <div className="card w-90 bg-base-100 shadow-xl">
         <Link to={`/book-details/${book._id}`}>
-          <figure>
-            <img src={book?.image} alt="Shoes" />
-          </figure>
           <div className="card-body">
             <h2 className="card-title">
               {book?.title}

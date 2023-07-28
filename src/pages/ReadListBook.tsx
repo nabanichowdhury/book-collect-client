@@ -4,7 +4,7 @@ import { useGetReadListQuery } from "../redux/features/users/userApi";
 const ReadListBook = () => {
   const { data } = useGetReadListQuery(undefined, {
     refetchOnMountOrArgChange: true,
-    //pollingInterval: 30000,
+    pollingInterval: 30000,
   });
   console.log(data);
 

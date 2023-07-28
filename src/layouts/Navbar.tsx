@@ -22,15 +22,7 @@ const Navbar = () => {
       <div className="navbar-start">
         <a className="btn btn-ghost normal-case text-xl">Book Collection</a>
       </div>
-      <div className="navbar-center hidden lg:flex">
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered w-30 md:w-auto"
-          />
-        </div>
-      </div>
+      <div className="navbar-end hidden lg:flex"></div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           {localStorage.getItem("accessToken") ? (

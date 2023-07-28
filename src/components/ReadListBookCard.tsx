@@ -9,7 +9,7 @@ type IProp = {
 };
 const ReadListBookCard = ({ book, hasRead }: IProp) => {
   const [markReadUnread, isLoading] = useMarkAsReadUnreadMutation(undefined);
-  const handleReadUnread = (hasRead) => {
+  const handleReadUnread = (hasRead: boolean) => {
     const data = {
       data: {
         bookId: book?._id,
