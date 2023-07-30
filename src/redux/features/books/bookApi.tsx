@@ -3,9 +3,32 @@ import { api } from "../../api/apiSlice";
 // console.log(localStorage.getItem("accessToken"));
 const bookApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getBooks: builder.query({
-      query: (search) => `/books/?searchTerm=${search}`,
+    getAllBooks: builder.query({
+      query: () => `/books`,
+      providesTags: ["books"],
     }),
+    getBooks: builder.query({
+      query: (searchAndFilter) => {
+        const { searchTerm, filters } = searchAndFilter;
+        const { genre, publicationYear } = filters;
+
+        const queryParams = new URLSearchParams();
+        if (searchTerm) {
+          queryParams.append("searchTerm", searchTerm);
+        }
+        if (genre) {
+          queryParams.append("genre", genre);
+        }
+        if (publicationYear) {
+          queryParams.append("publicationYear", publicationYear);
+        }
+        return {
+          url: `/books?${queryParams.toString()}`,
+        };
+      },
+      providesTags: ["books"],
+    }),
+
     getSingleBooks: builder.query({
       query: (id) => `/books/${id}`,
     }),
@@ -63,4 +86,5 @@ export const {
   useCreateBookMutation,
   useDeleteBookMutation,
   useEditBookMutation,
+  useGetAllBooksQuery,
 } = bookApi;

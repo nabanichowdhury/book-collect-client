@@ -11,18 +11,14 @@ const ReadListBook = () => {
   return (
     <div>
       <div className="grid grid-cols-3 gap-4">
-        {data?.data?.map(
-          (book) => (
-            console.log(book),
-            (
-              <ReadListBookCard
-                book={book?.bookId}
-                hasRead={book?.hasRead}
-                key={book._id}
-              ></ReadListBookCard>
-            )
-          )
-        )}
+        {data?.data?.map((book) => (
+          // console.log(book),
+          <ReadListBookCard
+            book={book?.bookId}
+            hasRead={book?.hasRead}
+            key={book._id}
+          ></ReadListBookCard>
+        ))}
       </div>
     </div>
   );

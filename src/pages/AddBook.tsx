@@ -23,7 +23,7 @@ const AddBook = () => {
   const handleGenreChange = (event: any) => {
     setGenre(event.target.value);
   };
-  const [createBook, { isLoading }] = useCreateBookMutation();
+  const [createBook, { isLoading, isSuccess }] = useCreateBookMutation();
   if (isLoading) return <Loading></Loading>;
   const handleAddSubmit = () => {
     setLink("");
@@ -40,9 +40,10 @@ const AddBook = () => {
         genre: genre,
       },
     };
-    //mutation e dispath kore nah maybe
+
     createBook(book);
   };
+  console.log(isSuccess);
 
   return (
     <div>

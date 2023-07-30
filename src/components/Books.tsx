@@ -3,23 +3,51 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import Loading from "../layouts/Loading";
 import AddBook from "../pages/AddBook";
-import { useGetBooksQuery } from "../redux/features/books/bookApi";
+import {
+  useGetAllBooksQuery,
+  useGetBooksQuery,
+} from "../redux/features/books/bookApi";
 import { IBook } from "../types/globalTypes";
 import BookCard from "./BookCard";
 
 export const Books = () => {
   const [search, setSearch] = useState("");
-  const { data, isLoading, error } = useGetBooksQuery(search, {
+  let genreSet = new Set();
+  let publicationYearSet = new Set();
+  const [selectGenre, setSelectedGenre] = useState("");
+  const [selectPublicationYear, setSelectedPublicationYear] = useState("");
+  const handleGenreChange = (event) => {
+    setSelectedGenre(event.target.value);
+  };
+  const handlePublicationYearChange = (event) => {
+    setSelectedPublicationYear(event.target.value);
+  };
+
+  const searchAndFilter = {
+    searchTerm: search,
+    filters: {
+      genre: selectGenre,
+      publicationYear: selectPublicationYear,
+    },
+  };
+  const { data: books } = useGetAllBooksQuery(searchAndFilter, {
+    refetchOnMountOrArgChange: true,
+  });
+  const { data, isLoading, error } = useGetBooksQuery(searchAndFilter, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000,
   });
+  for (let i = 0; i < books?.data?.length; i++) {
+    genreSet.add(books?.data[i]?.genre);
+    publicationYearSet.add(books?.data[i]?.publicationYear);
+  }
+
   if (isLoading) return <Loading></Loading>;
   const isUserLoggedIn = localStorage.getItem("id");
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
-  console.log(search);
 
   return (
     <div className="">
@@ -29,8 +57,39 @@ export const Books = () => {
             Book Collect
           </Link>
         </div>
-
         <div className="navbar-center">
+          <select
+            value={selectGenre}
+            onChange={handleGenreChange}
+            className="select w-full max-w-xs"
+          >
+            <option value="" selected>
+              Genre
+            </option>
+            {Array.from(genreSet).map((genre) => {
+              return (
+                <option key={genre} value={genre}>
+                  {" "}
+                  {genre}{" "}
+                </option>
+              );
+            })}
+          </select>
+          <select
+            value={selectPublicationYear}
+            onChange={handlePublicationYearChange}
+            className="select w-full max-w-xs"
+          >
+            <option value="" selected>
+              PublicationYear
+            </option>
+            {Array.from(publicationYearSet).map((publicationYear) => {
+              return <option>{publicationYear}</option>;
+            })}
+          </select>
+        </div>
+
+        <div className="navbar-end">
           <div className="form-control">
             <input
               value={search}
