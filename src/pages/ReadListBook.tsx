@@ -1,4 +1,5 @@
 import ReadListBookCard from "../components/ReadListBookCard";
+import Navbar2 from "../layouts/Navbar2";
 import { useGetReadListQuery } from "../redux/features/users/userApi";
 
 const ReadListBook = () => {
@@ -6,10 +7,11 @@ const ReadListBook = () => {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000,
   });
-  console.log(data);
+  // console.log(data);
 
   return (
     <div>
+      <Navbar2></Navbar2>
       <div className="grid grid-cols-3 gap-4">
         {data?.data?.map((book) => (
           // console.log(book),
