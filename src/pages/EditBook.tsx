@@ -30,7 +30,7 @@ const EditBook = () => {
   };
   const [state, setState] = useState(initialState);
 
-  const handleOnChange: any = (e) => {
+  const handleOnChange: any = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.name);
     setState((prev: any) => ({
       ...prev,
@@ -51,7 +51,7 @@ const EditBook = () => {
     }
   }, [data]);
 
-  const handleEditSubmit = (e) => {
+  const handleEditSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     updateBook({ id: id, data: state });
     navigate(`/book-details/${id}`);

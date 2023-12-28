@@ -1,7 +1,25 @@
+import BookCard from "../components/BookCard";
+import { useGetAllBooksQuery } from "../redux/features/books/bookApi";
+import { IBook } from "../types/globalTypes";
+
 const Home = () => {
+  const searchAndFilter = {
+    searchTerm: "",
+    filters: {
+      genre: "",
+      publicationYear: "",
+    },
+  };
+  const { data: books } = useGetAllBooksQuery(searchAndFilter, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const last10Books = books?.data?.slice(0, 10);
+
+  console.log(books);
   return (
-    <div>
-      <div className="hero min-h-screen bg-base-200">
+    <div className="p-12">
+      <div className="hero min-h-screen ">
         <div className="hero-content flex-col lg:flex-row">
           <img
             src="/src/assets/photo.jpg"
@@ -19,10 +37,28 @@ const Home = () => {
               in a collection is a window into unique stories, ideas, and
               perspectives, forming a tapestry of literary exploration.
             </p>
-            <button className="btn btn-primary">Get Started</button>
           </div>
         </div>
       </div>
+      <div>
+        <h1 className="text-xl font-bold text-center">
+          Our Recent added books
+        </h1>
+        <div className="grid grid-cols-3 gap-4">
+          {last10Books?.map((book: IBook) => (
+            <BookCard book={book} />
+          ))}
+        </div>
+      </div>
+
+      <footer className="footer footer-center p-4 text-base-content">
+        <aside>
+          <p>
+            Copyright © 2023 - All right reserved by Book Collection Industries
+            Ltd
+          </p>
+        </aside>
+      </footer>
     </div>
   );
 };

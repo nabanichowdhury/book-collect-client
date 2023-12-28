@@ -9,7 +9,7 @@ import { useState } from "react";
 const useEditBookForm = (initialState: any) => {
   const [state, setState] = useState(initialState);
 
-  const handleOnChange: any = (e) => {
+  const handleOnChange: any = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e);
     setState((prev: any) => ({
       ...prev,

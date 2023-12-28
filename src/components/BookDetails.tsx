@@ -11,14 +11,14 @@ import {
 
 export const BookDetails = () => {
   const { id } = useParams();
-  const { data, isLoading: isGetLoading } = useGetSingleBooksQuery(id, {
+  const { data } = useGetSingleBooksQuery(id, {
     refetchOnMountOrArgChange: true,
   });
   const isOwner = localStorage.getItem("id") == data?.data?.owner;
 
   const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation();
-  const [addWishList, { isLoading: addLoading }] = useAddWishListMutation();
-  const [addReadList, { isLoading: readLoading }] = useAddReadListMutation();
+  const [addWishList] = useAddWishListMutation();
+  const [addReadList] = useAddReadListMutation();
 
   const navigate = useNavigate();
 
@@ -161,7 +161,7 @@ export const BookDetails = () => {
                 <button
                   disabled={!isOwner}
                   className="btn btn-active btn-ghost"
-                  onClick={() => window.my_modal_1.showModal()}
+                  onClick={() => (window as any).my_modal_1.showModal()}
                 >
                   Delete Book
                 </button>

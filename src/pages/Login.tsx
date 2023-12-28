@@ -30,10 +30,10 @@ const Login = () => {
     navigate("/");
   };
 
-  const handleEmailChange = (event: any) => {
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
-  const handlePasswordChange = (event: any) => {
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
   if (isLoading) return <Loading></Loading>;

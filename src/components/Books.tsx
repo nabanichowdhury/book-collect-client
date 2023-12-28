@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Loading from "../layouts/Loading";
 import AddBook from "../pages/AddBook";
 import {
@@ -16,10 +16,13 @@ export const Books = () => {
   let publicationYearSet = new Set();
   const [selectGenre, setSelectedGenre] = useState("");
   const [selectPublicationYear, setSelectedPublicationYear] = useState("");
-  const handleGenreChange = (event) => {
+  const handleGenreChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedGenre(event.target.value);
   };
-  const handlePublicationYearChange = (event) => {
+
+  const handlePublicationYearChange = (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
     setSelectedPublicationYear(event.target.value);
   };
 
@@ -33,7 +36,7 @@ export const Books = () => {
   const { data: books } = useGetAllBooksQuery(searchAndFilter, {
     refetchOnMountOrArgChange: true,
   });
-  const { data, isLoading, error } = useGetBooksQuery(searchAndFilter, {
+  const { data, isLoading } = useGetBooksQuery(searchAndFilter, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000,
   });
@@ -45,7 +48,7 @@ export const Books = () => {
   if (isLoading) return <Loading></Loading>;
   const isUserLoggedIn = localStorage.getItem("id");
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
@@ -68,9 +71,8 @@ export const Books = () => {
             </option>
             {Array.from(genreSet).map((genre) => {
               return (
-                <option key={genre} value={genre}>
-                  {" "}
-                  {genre}{" "}
+                <option key={genre as string} value={genre as string}>
+                  {genre as React.ReactNode}
                 </option>
               );
             })}
@@ -84,7 +86,14 @@ export const Books = () => {
               PublicationYear
             </option>
             {Array.from(publicationYearSet).map((publicationYear) => {
-              return <option>{publicationYear}</option>;
+              return (
+                <option
+                  key={publicationYear as string}
+                  value={publicationYear as string}
+                >
+                  {publicationYear as React.ReactNode}
+                </option>
+              );
             })}
           </select>
         </div>
@@ -117,10 +126,9 @@ export const Books = () => {
           </button>
           {isUserLoggedIn ? (
             <>
-              {/* Open the modal using ID.showModal() method */}
               <button
                 className="btn btn-outline btn-secondary"
-                onClick={() => window.my_modal_5.showModal()}
+                onClick={() => (window as any).my_modal_5.showModal()}
               >
                 Add New Book
               </button>

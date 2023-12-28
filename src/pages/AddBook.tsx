@@ -38,6 +38,7 @@ const AddBook = () => {
         author: author,
         publicationYear: publicationYear,
         genre: genre,
+        createdAt: new Date().toISOString(),
       },
     };
 
