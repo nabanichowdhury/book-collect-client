@@ -1,4 +1,4 @@
-import img from "../assets/image.svg";
+import img from "../../public/static/images/image.svg";
 import BookCard from "../components/BookCard";
 import { useGetAllBooksQuery } from "../redux/features/books/bookApi";
 import { IBook } from "../types/globalTypes";
