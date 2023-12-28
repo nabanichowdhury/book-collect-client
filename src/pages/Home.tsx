@@ -1,3 +1,4 @@
+import img from "../assets/image.svg";
 import BookCard from "../components/BookCard";
 import { useGetAllBooksQuery } from "../redux/features/books/bookApi";
 import { IBook } from "../types/globalTypes";
@@ -20,10 +21,7 @@ const Home = () => {
     <div className="p-12">
       <div className="hero min-h-screen ">
         <div className="hero-content flex-col lg:flex-row">
-          <img
-            src="/src/assets/image.svg"
-            className="max-w-sm rounded-lg shadow-2xl"
-          />
+          <img src={img} className="max-w-sm rounded-lg shadow-2xl" />
           <div>
             <h1 className="text-4xl font-bold">
               Unleash Your Literary Passion! Explore Our Vast{" "}
