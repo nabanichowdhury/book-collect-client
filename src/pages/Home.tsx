@@ -21,7 +21,7 @@ const Home = () => {
       <div className="hero min-h-screen ">
         <div className="hero-content flex-col lg:flex-row">
           <img
-            src="/src/assets/photo.jpg"
+            src="/src/assets/image.svg"
             className="max-w-sm rounded-lg shadow-2xl"
           />
           <div>
