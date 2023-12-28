@@ -16,7 +16,7 @@ const userApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      transformResponse: (response: ILoginResponse, meta, arg) => response.data,
+      transformResponse: (response: ILoginResponse) => response.data,
     }),
     addWishList: builder.mutation({
       query: ({ data }) => ({

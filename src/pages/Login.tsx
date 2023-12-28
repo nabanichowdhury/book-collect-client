@@ -18,8 +18,8 @@ const Login = () => {
         password: password,
       },
     };
-    const data = await login(user);
-    console.log(data?.data?.accessToken);
+    const data: any = await login(user);
+    console.log(data?.data);
     const accessToken = data?.data?.accessToken;
 
     const id = data?.data?.id;
