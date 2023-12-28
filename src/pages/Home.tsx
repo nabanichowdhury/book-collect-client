@@ -16,7 +16,6 @@ const Home = () => {
 
   const last10Books = books?.data?.slice(0, 10);
 
-  console.log(books);
   return (
     <div className="p-12">
       <div className="hero min-h-screen ">
@@ -51,7 +50,7 @@ const Home = () => {
         </div>
       </div>
 
-      <footer className="footer footer-center p-4 text-base-content">
+      <footer className="footer footer-center mt-5 text-base-content">
         <aside>
           <p>
             Copyright © 2023 - All right reserved by Book Collection Industries
